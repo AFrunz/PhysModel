@@ -16,7 +16,7 @@ bool HeadPoint::move(long double qe, long double qb, long double m, GlobalSettin
     speed[1] += ay * settings.step;
     x += speed[0] * settings.step * settings.scale;
     y += speed[1] * settings.step * settings.scale;
-    if (x > settings.windowWidth || y > settings.windowHeight || y < 0){
+    if (x > settings.windowWidth || y > settings.windowHeight || y < 0 || x < -50){
         return false;
     }
     return true;

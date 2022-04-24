@@ -6,12 +6,14 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), animationSpeed(1), timeForFps(0), flagForFps(0), filename()
+    , ui(new Ui::MainWindow), animationSpeed(1), timeForFps(0), flagForFps(0),
+      filename(), showedSets()
 {
     QWidget::setWindowTitle("Physical model (alpha)");
     ui->setupUi(this);
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, ui->graphicsView->width() - 3, ui->graphicsView->height() - 3);
+    scene->setBackgroundBrush(QBrush(Qt::white));
     ui->graphicsView->setScene(scene);
     model = nullptr;
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -116,10 +118,23 @@ void MainWindow::on_ButtonStart_clicked()
     animationSpeed = ui->spinBoxAnimationSpeed->value();
     model = new Model(scene, ui->doubleSpinBoxSpeed->value(), -ui->doubleSpinBoxAngle->value() * M_PI / 180,
                       ui->doubleSpinBoxElectric->value(), ui->doubleSpinBoxMagnetic->value(), settings_, CHARGE * 1e19, MASS * 1e19);
-    QString base = "imgs/";
-    filename = base +
+    QString basePath = "imgs/";
+    QString startStr = "Scale: ";
+    filename = basePath +
             QString::number(ui->doubleSpinBoxElectric->value() / (ui->doubleSpinBoxSpeed->value() * ui->doubleSpinBoxMagnetic->value())) +
-            QString("f") + QString::number(ui->doubleSpinBoxAngle->value()) + QString(".png");
+            QString("f") +
+            QString::number(ui->doubleSpinBoxAngle->value()) +
+            QString("f") +
+            QString::number(ui->doubleSpinBoxScale->value()) +
+            QString(".png");
+    showedSets = startStr +
+            QString::number(ui->doubleSpinBoxScale->value()) + "\nSpeed: " +
+            QString::number(ui->doubleSpinBoxSpeed->value()) + "\nAngle: " +
+            QString::number(ui->doubleSpinBoxAngle->value()) + "\nElectric: " +
+            QString::number(ui->doubleSpinBoxElectric->value()) + "\nMagnet: " +
+            QString::number(ui->doubleSpinBoxMagnetic->value()) + "\nAlpha: " +
+            QString::number(ui->doubleSpinBoxElectric->value() / (ui->doubleSpinBoxSpeed->value() * ui->doubleSpinBoxMagnetic->value()));
+
     timer->start(ITERATION_TIMEOUT);
 }
 
@@ -162,9 +177,12 @@ void MainWindow::timerSlot()
 }
 
 void MainWindow::saveScreenshot() const {
-    QImage image(scene->width(), scene->height(), QImage::Format_ARGB32_Premultiplied);
+//    Format_ARGB32_Premultiplied
+    QImage image(scene->width(), scene->height(), QImage::Format_RGB888);
     QPainter painter(&image);
+    QGraphicsTextItem* setsLabel = scene->addText(showedSets, QFont(QString("Arial"), 10));
     scene->render(&painter);
     image.save(filename);
+    scene->removeItem(setsLabel);
 }
 

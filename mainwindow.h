@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QTime>
+#include <QGraphicsTextItem>
 #include "model.h"
 
 
@@ -51,6 +52,7 @@ private:
     time_t timeForFps;
     int flagForFps;
     QString filename;
+    QString showedSets;
 
 void saveScreenshot() const;
 
