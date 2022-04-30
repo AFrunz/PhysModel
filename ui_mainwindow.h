@@ -134,7 +134,7 @@ public:
         spinBoxAnimationSpeed->setAccelerated(true);
         spinBoxAnimationSpeed->setMinimum(1);
         spinBoxAnimationSpeed->setMaximum(100);
-        spinBoxAnimationSpeed->setValue(30);
+        spinBoxAnimationSpeed->setValue(50);
 
         verticalLayout_2->addWidget(spinBoxAnimationSpeed);
 
@@ -191,7 +191,7 @@ public:
         horizontalSliderAnimationSpeed->setInputMethodHints(Qt::ImhDigitsOnly|Qt::ImhPreferNumbers);
         horizontalSliderAnimationSpeed->setMinimum(1);
         horizontalSliderAnimationSpeed->setMaximum(100);
-        horizontalSliderAnimationSpeed->setValue(30);
+        horizontalSliderAnimationSpeed->setValue(50);
         horizontalSliderAnimationSpeed->setOrientation(Qt::Horizontal);
         horizontalSliderAnimationSpeed->setInvertedAppearance(false);
         horizontalSliderAnimationSpeed->setInvertedControls(false);

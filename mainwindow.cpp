@@ -51,25 +51,25 @@ void MainWindow::on_horizontalSliderScale_valueChanged(int value)
     if (value < 2){
         ui->spinBoxLineHeight->setValue(1);
         ui->horizontalSliderLineHeight->setValue(1);
-        ui->spinBoxAnimationSpeed->setValue(60);
-        ui->horizontalSliderAnimationSpeed->setValue(60);
+        ui->spinBoxAnimationSpeed->setValue(100);
+        ui->horizontalSliderAnimationSpeed->setValue(100);
     } else if (value < 3){
         ui->spinBoxLineHeight->setValue(2);
         ui->horizontalSliderLineHeight->setValue(2);
-        ui->spinBoxAnimationSpeed->setValue(30);
-        ui->horizontalSliderAnimationSpeed->setValue(30);
+        ui->spinBoxAnimationSpeed->setValue(50);
+        ui->horizontalSliderAnimationSpeed->setValue(50);
     }
     else if (value < 4){
         ui->spinBoxLineHeight->setValue(3);
         ui->horizontalSliderLineHeight->setValue(3);
-        ui->spinBoxAnimationSpeed->setValue(5);
-        ui->horizontalSliderAnimationSpeed->setValue(5);
+        ui->spinBoxAnimationSpeed->setValue(25);
+        ui->horizontalSliderAnimationSpeed->setValue(25);
     }
     else {
         ui->spinBoxLineHeight->setValue(3);
         ui->horizontalSliderLineHeight->setValue(3);
-        ui->spinBoxAnimationSpeed->setValue(1);
-        ui->horizontalSliderAnimationSpeed->setValue(1);
+        ui->spinBoxAnimationSpeed->setValue(5);
+        ui->horizontalSliderAnimationSpeed->setValue(5);
     }
 }
 
@@ -98,6 +98,7 @@ void MainWindow::on_doubleSpinBoxTimeStep_valueChanged(double arg1)
     ui->horizontalSliderTimeStep->setValue(arg1);
 }
 
+// Settings for fps
 // Total max = 1000
 const int MAX_FPS = 120;
 const int ITERATION_TIMEOUT = 1000 / MAX_FPS;
@@ -153,10 +154,10 @@ void MainWindow::timerSlot()
         flag = model->step();
     }
     if (flagForFps == AVERAGE_OF_FPS){
-        qDebug() << "Clocks" << clock() - timeForFps;
+//        qDebug() << "Clocks" << clock() - timeForFps;
 
         double divBy = ITERATION_TIMEOUT / 1000. + (static_cast<double>(clock() - timeForFps)) / CLOCKS_PER_SEC;
-        qDebug() << "divBy" << divBy;
+//        qDebug() << "divBy" << divBy;
         double fps;
         if (divBy == 0){
             fps = 1000;
@@ -165,7 +166,7 @@ void MainWindow::timerSlot()
         }
         ui->lcdNumber->display(fps);
         ui->lcdNumber->repaint();
-        qDebug() << "Current FPS: " << fps;
+//        qDebug() << "Current FPS: " << fps;
     }
     if (!flag){
         timer->stop();
